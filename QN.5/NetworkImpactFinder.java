@@ -1,3 +1,5 @@
+
+//5.b
 import java.util.*;
 
 public class NetworkImpactFinder {
