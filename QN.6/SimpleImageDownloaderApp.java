@@ -11,16 +11,19 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SimpleImageDownloaderApp extends JFrame {
-    private JTextField urlField = new JTextField(30);
+    // private JTextField urlField = new JTextField(
+    // "https://i.pinimg.com/736x/87/7e/a3/877ea3b78ad7c88e0718646657edfe72.jpg");
+    // // if image url want to be fix
+    private JTextField urlField = new JTextField(30); // if want to give the own url
     private JButton addButton = new JButton("Add Download");
     private DefaultListModel<DownloadModel> listModel = new DefaultListModel<>();
     private JList<DownloadModel> downloadList = new JList<>(listModel);
-    private ExecutorService downloadExecutor = Executors.newFixedThreadPool(10); // 4 concurrent downloads
+    private ExecutorService downloadExecutor = Executors.newFixedThreadPool(10); // 10 concurrent downloads
 
     public SimpleImageDownloaderApp() {
-        super("Simple Image Downloader");
+        super("Image Streamline Download");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 500);
+        setSize(800, 600);
         layoutComponents();
         setVisible(true);
     }
@@ -42,7 +45,7 @@ public class SimpleImageDownloaderApp extends JFrame {
         JButton pauseButton = new JButton("Pause");
         JButton resumeButton = new JButton("Resume");
         JButton cancelButton = new JButton("Cancel");
-        JButton openFolderButton = new JButton("Open Folder"); // New button to open the download folder
+        JButton openFolderButton = new JButton("View Images"); // New button to open the download folder
 
         buttonPanel.add(pauseButton);
         buttonPanel.add(resumeButton);
@@ -114,11 +117,11 @@ public class SimpleImageDownloaderApp extends JFrame {
 
 class DownloadModel {
     private final String url;
-    private final AtomicBoolean paused = new AtomicBoolean(false);
     private volatile String status = "Waiting...";
     private volatile long totalBytes = 0L;
     private volatile long downloadedBytes = 0L;
     private Future<?> future;
+    private final AtomicBoolean paused = new AtomicBoolean(false);
 
     public DownloadModel(String url) {
         this.url = url;
@@ -208,6 +211,8 @@ class DownloadTask implements Callable<Void> {
                     out.write(buffer, 0, bytesRead);
                     model.addDownloadedBytes(bytesRead);
                     updateUI.run();
+                    // Simulate download delay (remove this block in actual usage)
+                    Thread.sleep(200); // Adjust delay as needed (1 second in this example)
                 }
                 model.setStatus("Completed");
             }
