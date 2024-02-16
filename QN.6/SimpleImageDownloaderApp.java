@@ -29,6 +29,14 @@ public class SimpleImageDownloaderApp extends JFrame {
     }
 
     private void layoutComponents() {
+        // // Create a JLabel for the title
+        // JLabel titleLabel = new JLabel("Image Streamline Download");
+        // titleLabel.setFont(new Font("Arial", Font.BOLD, 20)); // Set font and size
+        // titleLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
+
+        // // Add the title label to the content pane
+        // getContentPane().add(titleLabel, BorderLayout.NORTH);
+
         JPanel addPanel = new JPanel();
         addPanel.add(urlField);
         addPanel.add(addButton);
@@ -42,9 +50,9 @@ public class SimpleImageDownloaderApp extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
-        JButton pauseButton = new JButton("Pause");
-        JButton resumeButton = new JButton("Resume");
-        JButton cancelButton = new JButton("Cancel");
+        JButton pauseButton = new JButton("Pause"); // Pause the downloading url
+        JButton resumeButton = new JButton("Resume"); // Resume the downloading url
+        JButton cancelButton = new JButton("Cancel"); // Cancel the downloading url
         JButton openFolderButton = new JButton("View Images"); // New button to open the download folder
 
         buttonPanel.add(pauseButton);
@@ -106,7 +114,8 @@ public class SimpleImageDownloaderApp extends JFrame {
             DownloadTask task = new DownloadTask(model, () -> SwingUtilities.invokeLater(this::repaint));
             model.setFuture(downloadExecutor.submit(task));
         } catch (MalformedURLException ex) {
-            JOptionPane.showMessageDialog(this, "Invalid URL: " + url, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Can you please check the URL: " + url, "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -211,8 +220,8 @@ class DownloadTask implements Callable<Void> {
                     out.write(buffer, 0, bytesRead);
                     model.addDownloadedBytes(bytesRead);
                     updateUI.run();
-                    // Simulate download delay (remove this block in actual usage)
-                    Thread.sleep(200); // Adjust delay as needed (1 second in this example)
+
+                    Thread.sleep(200); // Adjust delay as needed
                 }
                 model.setStatus("Completed");
             }
